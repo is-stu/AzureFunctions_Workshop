@@ -131,6 +131,60 @@ namespace watchStewar.Functions.Functions
             });
         }
 
+        [FunctionName(nameof(GetAllRegisters))]
+        public static async Task<IActionResult> GetAllRegisters(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "watch")] HttpRequest req,
+            [Table("RegisterTable", Connection = "AzureWebJobsStorage")] CloudTable watchTable,
+            ILogger log)
+        {
+            log.LogInformation("Getting all the information.");
+
+            TableQuery<WatchEntity> query = new TableQuery<WatchEntity>();
+            TableQuerySegment<WatchEntity> watches = await watchTable.ExecuteQuerySegmentedAsync(query, null);
+
+            string message = "Retrieving all the watches";
+            log.LogInformation(message);
+
+            return new OkObjectResult(new Response
+            {
+                isSuccess = true,
+                message = message,
+                result = watches
+            });
+        }
+
+
+        [FunctionName(nameof(GetRegisterById))]
+        public static IActionResult GetRegisterById(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "watch/{id}")] HttpRequest req,
+            [Table("RegisterTable", "RegisterTable", "{id}", Connection = "AzureWebJobsStorage")] WatchEntity watchEntity,
+            string id,
+            ILogger log)
+        {
+            log.LogInformation($"Getting information for id: {id}.");
+
+            //Validate ID
+            if (watchEntity == null)
+            {
+                return new BadRequestObjectResult(new Response
+                {
+                    isSuccess = false,
+                    message = "Register not found."
+                });
+            }
+
+            
+
+            string message = $"Register with id {id} retrieved";
+            log.LogInformation(message);
+
+            return new OkObjectResult(new Response
+            {
+                isSuccess = true,
+                message = message,
+                result = watchEntity
+            });
+        }
 
     }
 }
