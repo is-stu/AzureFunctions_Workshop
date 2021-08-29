@@ -173,9 +173,43 @@ namespace watchStewar.Functions.Functions
                 });
             }
 
-            
+
 
             string message = $"Register with id {id} retrieved";
+            log.LogInformation(message);
+
+            return new OkObjectResult(new Response
+            {
+                isSuccess = true,
+                message = message,
+                result = watchEntity
+            });
+        }
+
+        [FunctionName(nameof(DeleteRegisterById))]
+        public static async Task<IActionResult> DeleteRegisterById(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "watch/{id}")] HttpRequest req,
+            [Table("RegisterTable", "RegisterTable", "{id}", Connection = "AzureWebJobsStorage")] WatchEntity watchEntity,
+            [Table("RegisterTable", Connection = "AzureWebJobsStorage")] CloudTable watchTable,
+            string id,
+            ILogger log)
+        {
+            log.LogInformation($"Deleting information for id: {id}.");
+
+            //Validate ID
+            if (watchEntity == null)
+            {
+                return new BadRequestObjectResult(new Response
+                {
+                    isSuccess = false,
+                    message = "Register not found."
+                });
+            }
+
+            await watchTable.ExecuteAsync(TableOperation.Delete(watchEntity));
+
+
+            string message = $"Register with id {id} was deleted";
             log.LogInformation(message);
 
             return new OkObjectResult(new Response
