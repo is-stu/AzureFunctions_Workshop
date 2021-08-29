@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31605.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "watchStewar.Common", "watchStewar.Common\watchStewar.Common.csproj", "{25383C3C-377B-4215-9A75-A8B6A0023E3E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "watchStewar.Common", "watchStewar.Common\watchStewar.Common.csproj", "{25383C3C-377B-4215-9A75-A8B6A0023E3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "watchStewar.Functions", "watchStewar.Functions\watchStewar.Functions.csproj", "{3773B78F-48BB-444D-B507-686F9C1B1A22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "watchStewar.Functions", "watchStewar.Functions\watchStewar.Functions.csproj", "{3773B78F-48BB-444D-B507-686F9C1B1A22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "watchStewar.Tests", "watchStewar.Tests\watchStewar.Tests.csproj", "{01EEC9BF-B1C9-4C50-AD07-B76A2E900B72}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "watchStewar.Tests", "watchStewar.Tests\watchStewar.Tests.csproj", "{01EEC9BF-B1C9-4C50-AD07-B76A2E900B72}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

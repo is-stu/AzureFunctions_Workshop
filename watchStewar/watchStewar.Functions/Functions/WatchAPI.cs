@@ -28,7 +28,9 @@ namespace watchStewar.Functions.Functions
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             Watch watch = JsonConvert.DeserializeObject<Watch>(requestBody);
 
-            if (watch?.idWorker == null)
+            Console.WriteLine(watch?.idWorker.ToString());
+
+            if (string.IsNullOrEmpty(watch?.idWorker.ToString()) || watch?.idWorker <= 0)
             {
                 return new BadRequestObjectResult(new Response
                 {
@@ -37,7 +39,6 @@ namespace watchStewar.Functions.Functions
                 });
             }
 
-            
 
             if (string.IsNullOrEmpty(watch?.type.ToString()))
             {
@@ -48,10 +49,19 @@ namespace watchStewar.Functions.Functions
                 });
             }
 
+            if (string.IsNullOrEmpty(watch?.register.ToString()))
+            {
+                return new BadRequestObjectResult(new Response
+                {
+                    isSuccess = false,
+                    message = "Invalid request, date is required "
+                });
+            }
+
             WatchEntity watchEntity = new WatchEntity
             {
                 idWorker = watch.idWorker,
-                register = DateTime.UtcNow,
+                register = watch.register,
                 type = watch.type,
                 isConsolidate = false,
                 ETag = "*",
@@ -63,6 +73,7 @@ namespace watchStewar.Functions.Functions
             await watchTable.ExecuteAsync(createOperation);
 
             string message = "New register created successfully & stored in table";
+            log.LogInformation("New register created successfully & stored in table.");
 
             return new OkObjectResult(new Response
             {

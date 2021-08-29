@@ -9,7 +9,7 @@ namespace watchStewar.Functions.Entities
 
         public DateTime register { get; set; }
 
-        public byte type { get; set; }
+        public int type { get; set; }
 
         public bool isConsolidate { get; set; }
     }
