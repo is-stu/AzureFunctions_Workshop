@@ -82,5 +82,55 @@ namespace watchStewar.Functions.Functions
                 result = watchEntity
             });
         }
+
+        [FunctionName(nameof(UpdateRegisterById))]
+        public static async Task<IActionResult> UpdateRegisterById(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "watch/{id}")] HttpRequest req,
+            [Table("RegisterTable", Connection = "AzureWebJobsStorage")] CloudTable watchTable,
+            string id,
+            ILogger log)
+        {
+            log.LogInformation($"Updating entrance to register for worker {id}.");
+
+
+            string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+            Watch watch = JsonConvert.DeserializeObject<Watch>(requestBody);
+
+            Console.WriteLine(watch?.idWorker.ToString());
+
+            // Validation for the id
+            TableOperation findId = TableOperation.Retrieve<WatchEntity>("RegisterTable", id);
+            TableResult findResult = await watchTable.ExecuteAsync(findId);
+
+            if (findResult.Result == null)
+            {
+                return new BadRequestObjectResult(new Response
+                {
+                    isSuccess = false,
+                    message = $"The id: {id} isn't a valid id, please check."
+                });
+            }
+            // Updating watch
+            WatchEntity watchEntity = (WatchEntity)findResult.Result;
+            if (!string.IsNullOrEmpty(watch.register.ToString()))
+            {
+                watchEntity.register = watch.register;
+            }
+
+            TableOperation updateOperation = TableOperation.Replace(watchEntity);
+            await watchTable.ExecuteAsync(updateOperation);
+
+            string message = $"Updated date in table for worker with id: {id}";
+            log.LogInformation(message);
+
+            return new OkObjectResult(new Response
+            {
+                isSuccess = true,
+                message = message,
+                result = watchEntity
+            });
+        }
+
+
     }
 }
