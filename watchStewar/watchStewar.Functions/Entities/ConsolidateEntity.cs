@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Microsoft.WindowsAzure.Storage.Table;
+using System;
 
 namespace watchStewar.Functions.Entities
 {
-    public class ConsolidateEntity
+    public class ConsolidateEntity : TableEntity
     {
         public int idWorker { get; set; }
 
