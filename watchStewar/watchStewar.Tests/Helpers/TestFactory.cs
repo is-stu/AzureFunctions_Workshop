@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using watchStewar.Common.Models;
 using watchStewar.Functions.Entities;
@@ -24,6 +25,11 @@ namespace watchStewar.Tests.Helpers
                 type = 0,
                 isConsolidate = false
             };
+        }
+
+        public static List<WatchEntity> GetWatchesEntities()
+        {
+            return new List<WatchEntity>();
         }
 
         public static DefaultHttpRequest CreateHttpRequest(Guid watchId, Watch watchRequest)

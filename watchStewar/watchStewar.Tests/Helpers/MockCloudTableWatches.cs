@@ -2,7 +2,11 @@
 using Microsoft.WindowsAzure.Storage.Auth;
 using Microsoft.WindowsAzure.Storage.Table;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using watchStewar.Functions.Entities;
 
 namespace watchStewar.Tests.Helpers
 {
@@ -27,6 +31,15 @@ namespace watchStewar.Tests.Helpers
                 HttpStatusCode = 200,
                 Result = TestFactory.GetWatchEntity()
             });
+        }
+
+        public override async Task<TableQuerySegment<RecordEntity>> ExecuteQuerySegmentedAsync<RecordEntity>(TableQuery<RecordEntity> query, TableContinuationToken token)
+        {
+            ConstructorInfo constructor = typeof(TableQuerySegment<RecordEntity>)
+                   .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
+                   .FirstOrDefault(c => c.GetParameters().Count() == 1);
+
+            return await Task.FromResult(constructor.Invoke(new object[] { TestFactory.GetWatchesEntities() }) as TableQuerySegment<RecordEntity>);
         }
     }
 }
