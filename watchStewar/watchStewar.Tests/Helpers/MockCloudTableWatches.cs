@@ -33,13 +33,13 @@ namespace watchStewar.Tests.Helpers
             });
         }
 
-        public override async Task<TableQuerySegment<RecordEntity>> ExecuteQuerySegmentedAsync<RecordEntity>(TableQuery<RecordEntity> query, TableContinuationToken token)
+        public override async Task<TableQuerySegment<WatchEntity>> ExecuteQuerySegmentedAsync<WatchEntity>(TableQuery<WatchEntity> query, TableContinuationToken token)
         {
-            ConstructorInfo constructor = typeof(TableQuerySegment<RecordEntity>)
+            ConstructorInfo constructor = typeof(TableQuerySegment<WatchEntity>)
                    .GetConstructors(BindingFlags.Instance | BindingFlags.NonPublic)
                    .FirstOrDefault(c => c.GetParameters().Count() == 1);
 
-            return await Task.FromResult(constructor.Invoke(new object[] { TestFactory.GetWatchesEntities() }) as TableQuerySegment<RecordEntity>);
+            return await Task.FromResult(constructor.Invoke(new object[] { TestFactory.GetWatchesEntities() }) as TableQuerySegment<WatchEntity>);
         }
     }
 }

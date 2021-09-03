@@ -75,8 +75,7 @@ namespace watchStewar.Tests.Test
         {
             //arrange
             MockCloudTableWatches mockTable = new MockCloudTableWatches(new Uri("http://127.0.0.1:10002/devstoreaccount1/reports"));
-            Watch watchRequest = TestFactory.GetWatchRequest();
-            DefaultHttpRequest request = TestFactory.CreateHttpRequest(watchRequest);
+            DefaultHttpRequest request = TestFactory.CreateHttpRequest();
 
             //act
             IActionResult response = await WatchAPI.GetAllRegisters(request, mockTable, logger);
