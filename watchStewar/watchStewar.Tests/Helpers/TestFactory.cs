@@ -32,6 +32,31 @@ namespace watchStewar.Tests.Helpers
             return new List<WatchEntity>();
         }
 
+        public static ConsolidateEntity GetConsolidateEntity() {
+            return new ConsolidateEntity
+            {
+                ETag = "*",
+                PartitionKey = "ConsolidatedRegisters",
+                RowKey = Guid.NewGuid().ToString(),
+                idWorker = 1,
+                date = DateTime.UtcNow,
+                minutesWorked = 120
+            };
+        }
+
+        public static List<ConsolidateEntity> GetConsolidateEntities() {
+            return new List<ConsolidateEntity>();
+        }
+
+        public static DefaultHttpRequest CreateHttpRequest(string date)
+        {
+            return new DefaultHttpRequest(new DefaultHttpContext())
+            {
+                Path = $"/{date}"
+            };
+        }
+
+
         public static DefaultHttpRequest CreateHttpRequest(Guid watchId, Watch watchRequest)
         {
             string request = JsonConvert.SerializeObject(watchRequest);
