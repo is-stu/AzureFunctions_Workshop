@@ -65,7 +65,8 @@ namespace watchStewar.Functions.Functions
                                 TableOperation findOp = TableOperation.Retrieve<ConsolidateEntity>("ConsolidatedRegisters", existConsolidated.First().RowKey);
                                 TableResult findRes = await consolidateTable.ExecuteAsync(findOp);
                                 ConsolidateEntity consolidatedEntity = (ConsolidateEntity)findRes.Result;
-                                consolidatedEntity.minutesWorked += existConsolidated.First().minutesWorked;
+                                consolidatedEntity.date = existConsolidated.First().date;
+                                consolidatedEntity.minutesWorked += (int)totalMinutes;
                                 TableOperation addConsolidatedOperation = TableOperation.Replace(consolidatedEntity);
                                 await consolidateTable.ExecuteAsync(addConsolidatedOperation);
                                 totalUpdated++;
